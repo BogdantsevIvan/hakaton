@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-
+import axios from 'axios';
 
 const App = () => {
     const [email, setEmail] = useState()
@@ -44,6 +44,17 @@ const App = () => {
         }
     }
 
+    const onSubmitEvent = (e) => {
+        e.preventDefault();
+    }
+
+    const fetchData = (e) => {
+        axios.post("http://localhost:3000/api/auth/register", {
+            login: email,
+            password: password
+        })
+    }
+
     return (
         <div className="app">
             <form className="regForm">
@@ -53,12 +64,11 @@ const App = () => {
                 {(passwordDirty && passwordError) && <div style={{ color: 'red' }}>{passwordError}</div>}
                 <input className="inputForm" onChange={e => passwordHandler(e)} value={password} onBlur={e => blurhandler(e)} name='pasword' type='password' placeholder='Enter your password' />
                 <div className="buttonBox">
-                    <button className="formButton" type='submit'>Вход</button>
+                    <button onSubmit={() => onSubmitEvent()} className="formButton" type='submit'>Вход</button>
                     <button className="formButton" type='submit'>Registration</button></div>
             </form>
         </div>
     )
 }
-
 
 export default App
